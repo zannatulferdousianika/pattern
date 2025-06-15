@@ -1,6 +1,6 @@
 def display_menu(menu):
     print("-----Menu-----")
-    for items, price in order.items():
+    for item, price in menu.items():
         print(f"{item}: ${price: .2f}")
     print("---------------")    
 
@@ -25,6 +25,7 @@ def calculate_bill(order, menu, tax_rate, tip_percent):
     tip = (subtotal * tip_percent)/100
     total = subtotal + tax + tip
     return subtotal, tax, tip, total
+    
 def print_bill(order, menu, subtotal, tax, tip, total, printed=[False]):
     if printed[0]:
         return
@@ -52,9 +53,10 @@ def main():
         "Special date package(for couples)":20.99
     } 
 
-tax_rate = 0.07  # 7% tax
+    tax_rate = 0.07  # 7% tax
     display_menu(menu)
     order = take_order(menu)
+
     if not order:
         print("No items ordered.")
         return
@@ -63,4 +65,4 @@ tax_rate = 0.07  # 7% tax
     print_bill(order, menu, subtotal, tax, tip, total)
 
 if __name__ == "__main__":
-    main()
+   main()
