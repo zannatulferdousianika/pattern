@@ -1,4 +1,4 @@
-class book:
+class Book:
     def __init__(self,book_name,author,is_borrowed):
         self.book_name = book_name
         self.author = author
@@ -6,28 +6,28 @@ class book:
 
     def __str__(self):
         status = "Borrowed" if self.is_borrowed else "Available"
-        print(f"Book: {self.book_name} by {self.author} status: {status}")
+        return f"Book: {self.book_name} by {self.author} status: {status}"
 
     def book_borrowed(self):
-        if not is_borrowed:
+        if not self.is_borrowed:
             self.is_borrowed = True
             return False
         return True
 
     def return_book(self):
-        if self.is_borroewd:
+        if self.is_borrowed:
             self.is_borrowed = False
             return True 
         return False
 
-class patron:
+class Patron:
     def __init__(self,name,patron_id,):
         self.name = name
         self.patron_id = patron_id
         self.borrowed_books = []
 
     def __str__(self):
-        print(f"Name: {self.name} , ID: {self.patron_id}, Book borrowed: {self.borrowed_books}")
+        return f"Name: {self.name} , ID: {self.patron_id}, Book borrowed: {self.borrowed_books}"
 
 
     def add_book(self,book):
@@ -56,21 +56,22 @@ print("\n =====Thanks for using=====")
 chose = input("Choose an option ")
 
 if chose == '1':
-    patron.display_books()
+    Patron.display_books()
 elif chose == '3':
     book1 = input("Enter book name")
-    a1 = inpuut("Enter author name")
-    if book1 in self.borrowed_books:
-        patron.remove_book()
+    a1 = input("Enter author name")
+    book_to_remove = Book(book1, a1)
+    Patron.remove_book(book_to_remove)
 
 elif chose == '2':
     b2 = input("Enter book name")
     a2 = input("Enter book author")
-    patron.add_book()
+    book = Book(b2, a2)
+    Patron.add_book(book)
+
 
 elif chose == '4':
     print("Thanks for using it")
-     break
 
 else:
     print("invalid index")
