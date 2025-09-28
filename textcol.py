@@ -8,7 +8,7 @@ class TextEditor:
         self.root.title("Untitled - Text Editor")
         self.filename = None
 
-        self.current_font_family = "Consoles"
+        self.current_font_family = "Consolas"
         self.current_font_size = 14
         self.text_font = font.Font(family=self.current_font_family, 
         size=self.current_font_size)
@@ -22,14 +22,14 @@ class TextEditor:
         self.text_area.focus_set()
 
         #....STATUS BAR...#
-        self.status_bar = tk.label(root, text="Ln 1, Col 1", anchor ="e")
+        self.status_bar = tk.Label(root, text="Ln 1, Col 1", anchor ="e")
         self.status_bar.pack(fill=tk.X, side=tk.BOTTOM)
         self.text_area.bind("<KeyRelease>", self.update_status)
         self.text_area.bind("<ButtonRelease>", self.update_status)
 
 
         #...MENU BAR...
-        self.menu = tk.Meunu(root)
+        self.menu = tk.Menu(root)
         root.config(menu= self.menu)
 
         # File Menu
@@ -44,11 +44,11 @@ class TextEditor:
 
 
         # Edit menu
-        odit_menu = tk.Menu(self.menu, tearoff=0)
-        self.meu.add_cascade(label="Edit", menu=edit_menu)
-        edit_menu.add_command(label= "Cut", accelerator="Ctrl+X",command=lambda: self.text_area.event_genaratee("<<Cut>>"))
-        edit_menu.add_command(label= "Copy", accelerator="Ctrl+C",command=lambda: self.text_area.event_genaratee("<<Copy>>"))
-        edit_menu.add_command(label= "Paste", accelerator="Ctrl+V",command=lambda: self.text_area.event_genaratee("<<Paste>>"))
+        edit_menu = tk.Menu(self.menu, tearoff=0)
+        self.menu.add_cascade(label="Edit", menu=edit_menu)
+        edit_menu.add_command(label= "Cut", accelerator="Ctrl+X",command=lambda: self.text_area.event_generate("<<Cut>>"))
+        edit_menu.add_command(label= "Copy", accelerator="Ctrl+C",command=lambda: self.text_area.event_generate("<<Copy>>"))
+        edit_menu.add_command(label= "Paste", accelerator="Ctrl+V",command=lambda: self.text_area.event_generate("<<Paste>>"))
         edit_menu.add_separator()
         edit_menu.add_command(label="Find", accelerator="Ctrl+F", command=self.find_text)
         edit_menu.add_command(label="Replace", accelerator="Ctrl+H", command=self.replace_text)
@@ -58,7 +58,7 @@ class TextEditor:
         format_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="Format", menu=format_menu)
         format_menu.add_command(label="Font", command=self.choose_font)
-        format_menu.add_command(label="Text Color", command=self.change_text-color)
+        format_menu.add_command(label="Text Color", command=self.change_text_color)
         format_menu.add_command(label="Background Color", command=self.change_bg_color)
 
 
@@ -69,13 +69,13 @@ class TextEditor:
 
         #.....Keyboard shortcuts...
 
-        rppt.bind("<Control-n>", lambda e: self.new_file())
+        root.bind("<Control-n>", lambda e: self.new_file())
         root.bind("<Control-o>", lambda e: self.open_file())
         root.bind("<Control-s>", lambda e: self.save_file())
         root.bind("<Control-f>", lambda e: self.find_text())
         root.bind("<Control-h>", lambda e: self.replace_text())
 
-    #.......... File Operations..........
+       #.......... File Operations..........
 
     def new_file(self):
         self.filename= None
@@ -83,7 +83,7 @@ class TextEditor:
         self.text_area.delete(1.0, tk.END)
     
     def open_file(self):
-        file = filedialog.askopenfillname(filetypes=[("Text Documents", "*.txt"), ("All Files", "*.*")])
+        file = filedialog.askopenfilename(filetypes=[("Text Documents", "*.txt"), ("All Files", "*.*")])
         if file:
             self.filename = file
             self.root.title(f"{file} - Text Editor")
@@ -117,7 +117,7 @@ class TextEditor:
                 if not pos:
                     break
                 end = f"{pos}+{len(word)}c"
-                self.text_area.tag_add("Highlight", pos, end)
+                self.text_area.tag_add("highlight", pos, end)
                 self.text_area.tag_config("highlight", background="yellow", foreground="black")
                 start = end
 
@@ -133,12 +133,12 @@ class TextEditor:
     #......Font & color......
     def choose_font(self):
         font_family = simpledialog.askstring("Font", "Enter font family(e.g., Arial, Consolas):")
-        font_size = simpledialog.askstrinf("Font size", "Enter font size:", initialvalue= self.current_font_size)
+        font_size = simpledialog.askstring("Font size", "Enter font size:", initialvalue= self.current_font_size)
         if font_family and font_size:
             self.current_font_family = font_family
             self.current_font_size = font_size
             self.text_font.configure(family= self.current_font_family, size=self.current_font_size)
-            self.text-area.configure(font= sefl.text_font)
+            self.text_area.configure(font= self.text_font)
     def change_text_color(self):
         color = colorchooser.askcolor()[1]
         if color:
@@ -149,8 +149,9 @@ class TextEditor:
             try:
                 start, end= self.text_area.index("sel.first"), self.text_area.index("sel.last")
                 self.text_area.tag_add("highlight_bg", start, end)
-                self.text_area.tag_configure("highlighy_bg", Background=color)
-            except tk.TelError:
+                self.text_area.tag_configure("highlight_bg", background=color)
+
+            except tk.TclError:
                 pass
 
     #.....Status Bar 
